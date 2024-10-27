@@ -5,11 +5,14 @@ import logo from "../../assets/logo.gif"
 const Footer = () => {
   return (
     <footer className="bg-slate-300">
-      <Separator className="my-6 bg-slate-400" />
+      <Separator className="my-2 bg-slate-400" />
       <div className="flex justify-center">
-        <img src={logo} alt="logo" />
+        <img className="w-20" src={logo} alt="logo" />
       </div>
-      <div className="bg-gray-800 text-gray-200 py-8 sm:py-10">
+      <div className="cookie-regular font-bold text-nowrap block text-center mb-4">
+            Product Plaza
+          </div>
+      <div className="bg-gray-800 text-gray-200 py-2 sm:py-2">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
           {/* Address Section */}

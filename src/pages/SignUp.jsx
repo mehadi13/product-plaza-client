@@ -1,29 +1,55 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "@/hooks/use-toast"
-import { AuthContext } from "@/provider/AuthProvider"
-import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
-
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { API_URL } from "@/Constant";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 const SignUp = () => {
-  // State to store email and password
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    mobile: "",
+    address: "",
+    role: "USER",
+  });
 
-  const { createUser } = useContext(AuthContext);
+  // These methods will update the state properties.
+  function updateForm(value) {
+    return setForm((prev) => {
+      return { ...prev, ...value };
+    });
+  }
+
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
+    const user = { ...form };
     try {
-      const res = await createUser(email, password);
-      console.log("User signed up:", res.user);
+      let response = await fetch(`${API_URL}/record`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (!response.ok) {
+        toast({
+          variant: "destructive",
+          title: "Signup error",
+          description: "An error occurred during signup.",
+        });
+      }
+
       toast({
         variant: "success",
         title: "Signup successful!",
@@ -37,7 +63,7 @@ const SignUp = () => {
         description: err.message || "An error occurred during signup.",
       });
     }
-  }
+  };
 
   return (
     <Card className="mx-auto max-w-sm my-24">
@@ -53,12 +79,45 @@ const SignUp = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="first-name">First name</Label>
-                <Input id="first-name" placeholder="Max" required />
+                <Input
+                  id="first-name"
+                  placeholder="Max"
+                  value={form.firstName}
+                  onChange={(e) => updateForm({ firstName: e.target.value })}
+                  required
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="last-name">Last name</Label>
-                <Input id="last-name" placeholder="Robinson" required />
+                <Input
+                  id="last-name"
+                  placeholder="Robinson"
+                  value={form.lastName}
+                  onChange={(e) => updateForm({ lastName: e.target.value })}
+                  required
+                />
               </div>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="mobile">Mobile No</Label>
+              <Input
+                id="mobile"
+                type="number"
+                placeholder="01234567890"
+                value={form.mobile}
+                onChange={(e) => updateForm({ mobile: e.target.value })}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="address">Address</Label>
+              <Textarea
+                id="address"
+                placeholder="Type your address"
+                value={form.address}
+                onChange={(e) => updateForm({ address: e.target.value })}
+                required
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -66,15 +125,19 @@ const SignUp = () => {
                 id="email"
                 type="email"
                 placeholder="m@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={form.email}
+                onChange={(e) => updateForm({ email: e.target.value })}
                 required
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password}
-                onChange={(e) => setPassword(e.target.value)} />
+              <Input
+                id="password"
+                type="password"
+                value={form.password}
+                onChange={(e) => updateForm({ password: e.target.value })}
+              />
             </div>
             <Button type="submit" className="w-full">
               Create an account
@@ -89,7 +152,7 @@ const SignUp = () => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

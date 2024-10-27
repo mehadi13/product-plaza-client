@@ -26,8 +26,9 @@ const Courses = () => {
 </section>
 }
 
-export const courseLoader = async () => {
-    const response = await fetch(`${API_URL}/courses`);
+export const courseLoader = async ({params}) => {
+    const { category } = params;
+    const response = await fetch(`${API_URL}/courses?category=${category}`);
 
     if (!response.ok) {
         throw Error("Could not fetch courses.")

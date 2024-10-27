@@ -62,12 +62,18 @@ function Header() {
         </div>
 
         <div className="hidden flex-1 md:flex justify-center">
-          <div className="grid grid-cols-2 gap-3 place-content-center">
+          <div className="grid grid-cols-3 gap-3">
             <Link
               to="/"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               Home
+            </Link>
+            <Link
+              to="/dashboard"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Dashboard
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger className="text-muted-foreground transition-colors hover:text-foreground">
@@ -79,22 +85,28 @@ function Header() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="my-1" />
                 <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  Electronics
+                  <Link to={"/products/electronics"}>Electronics</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  Wearings
+                  <Link to={"/products/wearings"}>Wearings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  Beauty & Personal Care
+                  <Link to={"/products/personal-care"}>
+                    Beauty & Personal Care
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
-       {/* Mobile Menu Button */}
-       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        {/* Mobile Menu Button */}
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0 md:hidden"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -105,15 +117,26 @@ function Header() {
                   Products
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuLabel className="font-medium">Categories</DropdownMenuLabel>
+                  <DropdownMenuLabel className="font-medium">
+                    Categories
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-1" />
-                  <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800" onClick={handleLinkClick}>
+                  <DropdownMenuItem
+                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
+                    onClick={handleLinkClick}
+                  >
                     Electronics
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800" onClick={handleLinkClick}>
+                  <DropdownMenuItem
+                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
+                    onClick={handleLinkClick}
+                  >
                     Wearings
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800" onClick={handleLinkClick}>
+                  <DropdownMenuItem
+                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
+                    onClick={handleLinkClick}
+                  >
                     Beauty & Personal Care
                   </DropdownMenuItem>
                 </DropdownMenuContent>
