@@ -18,6 +18,7 @@ import { AddEditCategory } from "@/pages/dashboard/category/AddEditCategory";
 import { categoryLoader } from "@/services/category";
 import Products, { productFilter } from "@/pages/product/Products";
 import ProductDetails from "@/pages/ProductDetails";
+import Profile from "@/pages/Profile";
 
 
 const routes = createBrowserRouter([
@@ -34,7 +35,7 @@ const routes = createBrowserRouter([
         path: "/profile",
         element: (
           <PrivateRoute>
-            <UnderDev />
+            <Profile />
           </PrivateRoute>
         ),
       },
@@ -129,6 +130,14 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/dashboard/users",
+        element: (
+          <PrivateRoute>
+            <UnderDev />
+          </PrivateRoute>
+        ),
+      }
     ]
   }
 ]);

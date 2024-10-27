@@ -11,8 +11,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { API_URL } from "@/Constant";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "@/provider/AuthProvider"
+import { storeUserData } from "@/storage";
+
 const SignUp = () => {
   const [form, setForm] = useState({
     firstName: "",
@@ -24,6 +27,9 @@ const SignUp = () => {
     role: "USER",
   });
 
+  const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // These methods will update the state properties.
   function updateForm(value) {
     return setForm((prev) => {
@@ -34,8 +40,30 @@ const SignUp = () => {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const user = { ...form };
+
     try {
-      let response = await fetch(`${API_URL}/record`, {
+      const res = await createUser(user.email, user.password);
+      console.log("User signed up:::", res.user);
+      const dbUser = {...user, firebaseId: res.user.uid }
+      saveUserToDb(dbUser, res.user.uid );
+      toast({
+        variant: "success",
+        title: "Signup successful!",
+        description: "You have successfully created an account.",
+      });
+    } catch (err) {
+      console.error(err);
+      toast({
+        variant: "destructive",
+        title: "Signup error",
+        description: err.message || "An error occurred during signup.",
+      });
+    }
+  };
+
+  const saveUserToDb = async(user, uid) => {
+    try {
+      let response = await fetch(`${API_URL}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,6 +83,17 @@ const SignUp = () => {
         title: "Signup successful!",
         description: "You have successfully created an account.",
       });
+
+      const dbUserResponse = await fetch(`${API_URL}/api/users/firebase/${uid}`);
+
+      if (dbUserResponse.ok) {
+        const dbUser = await dbUserResponse.json();
+        storeUserData(dbUser.json())
+      } else {
+        console.error('Failed to fetch user data:', dbUserResponse.statusText);
+      }
+
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast({
@@ -63,7 +102,7 @@ const SignUp = () => {
         description: err.message || "An error occurred during signup.",
       });
     }
-  };
+  }
 
   return (
     <Card className="mx-auto max-w-sm my-24">

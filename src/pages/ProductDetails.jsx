@@ -1,8 +1,6 @@
 import { useLocation } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { Separator } from "@/components/ui/separator";
 
 const ProductDetails = () => {
   const location = useLocation();

@@ -16,11 +16,14 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthProvider";
 import { Separator } from "@/components/ui/separator";
 import { API_URL } from "@/Constant";
+import { getUserData } from "@/storage";
 
 function Header() {
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const dbUser = getUserData();
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -85,12 +88,6 @@ function Header() {
             >
               Home
             </Link>
-            <Link
-              to="/dashboard"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Dashboard
-            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger className="text-muted-foreground transition-colors hover:text-foreground">
                 Products
@@ -106,7 +103,9 @@ function Header() {
                       key={index}
                       className="transition-colors hover:bg-blue-100 hover:text-blue-800"
                     >
-                      <Link to={`/products/${category.name}`}>{category.name}</Link>
+                      <Link to={`/products/${category.name}`}>
+                        {category.name}
+                      </Link>
                     </DropdownMenuItem>
                   ))
                 ) : (
@@ -138,29 +137,35 @@ function Header() {
                     Categories
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-1" />
-                  <DropdownMenuItem
-                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
-                    onClick={handleLinkClick}
-                  >
-                    Electronics
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
-                    onClick={handleLinkClick}
-                  >
-                    Wearings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="transition-colors hover:bg-blue-100 hover:text-blue-800"
-                    onClick={handleLinkClick}
-                  >
-                    Beauty & Personal Care
-                  </DropdownMenuItem>
+
+                  {categories ? (
+                    categories.map((category, index) => (
+                      <DropdownMenuItem
+                        key={index}
+                        onClick={handleLinkClick}
+                        className="transition-colors hover:bg-blue-100 hover:text-blue-800"
+                      >
+                        <Link to={`/products/${category.name}`}>
+                          {category.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))
+                  ) : (
+                    <>No Categry Found</>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </nav>
           </SheetContent>
         </Sheet>
+
+        {dbUser && dbUser.role == "ADMIN" ? (
+          <Link to="/dashboard">
+            <Button>Dashboard</Button>
+          </Link>
+        ) : (
+          <></>
+        )}
 
         <div className="flex items-center gap-4 ml-auto md:gap-2 lg:gap-4">
           {user ? (
@@ -184,11 +189,6 @@ function Header() {
                 <DropdownMenuItem>
                   <Link to="/profile" onClick={handleDropdownClick}>
                     Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/profile" onClick={handleDropdownClick}>
-                    Cart
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

@@ -17,10 +17,26 @@ import {
 } from "../../components/ui/collapsible";
 import { List, Plus, Table, Type, User } from "lucide-react";
 import SidebarNavLink from "../../components/SidebarNavLink";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.gif";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/provider/AuthProvider";
+import { useContext } from "react";
 
 export function DashboardSidebar() {
+  const { logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -116,14 +132,14 @@ export function DashboardSidebar() {
                     <SidebarMenuSub>
                       <SidebarMenuSubItem>
                         <SidebarNavLink
-                          to={"/sf2"}
+                          to={"/dashboard/users"}
                           icon={List}
                           label="List View"
                         />
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
                         <SidebarNavLink
-                          to={"/sf1"}
+                          to={"/dashboard/users"}
                           icon={Plus}
                           label="Add New"
                         />
@@ -134,6 +150,14 @@ export function DashboardSidebar() {
               </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
+
+          <SidebarGroupContent>
+            <Separator/>
+            <div className="mt-2 grid justify-center">
+            <Button onClick={handleSignOut} className="bg-yellow-600 text-blue-700 hover:bg-yellow-400">Log Out</Button>
+            </div>
+          </SidebarGroupContent>
+
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

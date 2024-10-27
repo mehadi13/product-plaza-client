@@ -13,15 +13,16 @@ import { AuthContext } from "@/provider/AuthProvider";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
+import { API_URL } from "@/Constant";
+import { storeUserData } from "@/storage";
 
 const SignIn = () => {
   // State to store email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signIn, googleSignIn, facebookSignIn } = useContext(AuthContext);
+  const { signIn, googleSignIn } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
-  const facebookProvider = new FacebookAuthProvider();
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -29,7 +30,17 @@ const SignIn = () => {
     try {
       const res = await signIn(email, password);
       console.log("User signed in:", res.user);
-      navigate("/products");
+
+      const dbUserResponse = await fetch(`${API_URL}/api/users/firebase/${res.user.uid}`);
+      if (dbUserResponse.ok) {
+        const dbUser = await dbUserResponse.json();
+        storeUserData(dbUser)
+      } else {
+        console.error('Failed to fetch user data:', dbUserResponse.statusText);
+      }
+      
+
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast({
@@ -45,23 +56,7 @@ const SignIn = () => {
     try {
       const res = await googleSignIn(googleProvider);
       console.log("User signed in:", res.user);
-      navigate("/products");
-    } catch (err) {
-      console.error(err);
-      toast({
-        variant: "destructive",
-        title: "Signin error",
-        description: err.message || "An error occurred during signin.",
-      });
-    }
-  };
-
-  const handleFacebookSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await facebookSignIn(facebookProvider);
-      console.log("User signed in:", res.user);
-      navigate("/products");
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast({
@@ -118,9 +113,6 @@ const SignIn = () => {
           </form>
           <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
             Login with Google
-          </Button>
-          <Button variant="outline" className="w-full" onClick={handleFacebookSignIn}>
-            Login with Facebook
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">

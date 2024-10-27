@@ -62,6 +62,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
+    localStorage.removeItem("loggedUser")
     return signOut(auth);
   };
 
