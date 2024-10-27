@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import { CollapsibleContent, CollapsibleTrigger } from "../../components/ui/collapsible";
-import { List, Plus, Table, User } from "lucide-react";
+import { List, Plus, Table, Type, User } from "lucide-react";
 import SidebarNavLink from "../../components/SidebarNavLink";
 
 export function DashboardSidebar() {
@@ -21,6 +21,32 @@ export function DashboardSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
+
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <Collapsible open className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton>
+                      <Type />
+                      <span>Category</span>
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                          <SidebarNavLink to={'/dashboard/categories'} icon={List} label="List View"/>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarNavLink to={'/dashboard/categories/new'} icon={Plus} label="Add New"/>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            </SidebarMenu>
+          </SidebarGroupContent>
+
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible open className="group/collapsible">

@@ -62,12 +62,12 @@ export function ProductsList() {
               <td className="py-2 px-4 border-b text-center">{product.price}</td>
               <td className="py-2 px-4 border-b text-center">{product.stock}</td>
               <td className="py-2 px-4 border-b text-center">
-                <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2" onClick={() => handleEditClick(product)}>
+                <Button className="bg-blue-500 text-white px-2 py-1 rounded mr-2" onClick={() => handleEditClick(product)}>
                   <Edit />
-                </button>
-                <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => deleteProduct(product._id)}>
+                </Button>
+                <Button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => deleteProduct(product._id)}>
                   <Delete />
-                </button>
+                </Button>
               </td>
             </tr>
           )) : <tr><td colSpan="5" className="py-2 px-4 border-b text-center">No Product found</td></tr>}

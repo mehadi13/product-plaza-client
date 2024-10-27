@@ -10,13 +10,13 @@ import Courses, { courseLoader } from "@/pages/secured/products/Courses";
 // import { imageLoader } from "@/pages/home/Sample";
 import NotFound from "@/pages/NotFound";
 import UnderDev from "@/pages/UnderDev";
-import Dashboard from "@/pages/Dashboard";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import AdminDashboard from "@/pages/dashboard/Dashboard";
-import CreateNewProduct from "@/pages/dashboard/products/CreateProduct";
-import { productLoader, ProductsList } from "@/pages/dashboard/products/ProductsList";
-import CreateProduct from "@/pages/dashboard/products/CreateProduct";
-import EditProduct from "@/pages/dashboard/products/EditProduct";
+import CreateProduct from "@/pages/dashboard/product/CreateProduct";
+import { productLoader, ProductsList } from "@/pages/dashboard/product/ProductsList";
+import EditProduct from "@/pages/dashboard/product/EditProduct";
+import { CategoryList } from "@/pages/dashboard/category/CategoryList";
+import { AddEditCategory } from "@/pages/dashboard/category/AddEditCategory";
 
 
 const routes = createBrowserRouter([
@@ -98,7 +98,7 @@ const routes = createBrowserRouter([
         path: "/dashboard/products/new",
         element: (
           <PrivateRoute>
-            <CreateNewProduct />
+            <CreateProduct />
           </PrivateRoute>
         )
       },
@@ -109,7 +109,31 @@ const routes = createBrowserRouter([
             <EditProduct />
           </PrivateRoute>
         )
-      }
+      },
+      {
+        path: "/dashboard/categories",
+        element: (
+          <PrivateRoute>
+            <CategoryList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/categories/new",
+        element: (
+          <PrivateRoute>
+            <AddEditCategory />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/categories/edit/:id",
+        element: (
+          <PrivateRoute>
+            <AddEditCategory />
+          </PrivateRoute>
+        ),
+      },
     ]
   }
 ]);
