@@ -12,13 +12,29 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logo from "../../assets/logo.gif";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthProvider";
 import { Separator } from "@/components/ui/separator";
+import { API_URL } from "@/Constant";
 
 function Header() {
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/categories`);
+        if (!response.ok) throw new Error("Could not fetch categories.");
+        const data = await response.json();
+        setCategories(data.results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const handleLinkClick = () => {
@@ -45,7 +61,7 @@ function Header() {
       <div className="grid place-content-center md:hidden">
         <Link to="/" className="flex items-center gap-1">
           <img className="w-12" src={logo} alt="logo" />
-          <span className="cookie-regular font-bold text-nowrap">
+          <span className="font-bold text-nowrap hover:shadow-2xl hover:text-yellow-600">
             Product Plaza
           </span>
         </Link>
@@ -55,7 +71,7 @@ function Header() {
         <div className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <Link to="/" className="md:flex md:items-center md:gap-1">
             <img className="w-20" src={logo} alt="logo" />
-            <span className="cookie-regular font-bold text-nowrap text-lg">
+            <span className="cookie-regular font-bold text-nowrap text-lg hover:text-yellow-600">
               Product Plaza
             </span>
           </Link>
@@ -84,17 +100,18 @@ function Header() {
                   Categories
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="my-1" />
-                <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  <Link to={"/products/electronics"}>Electronics</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  <Link to={"/products/wearings"}>Wearings</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="transition-colors hover:bg-blue-100 hover:text-blue-800">
-                  <Link to={"/products/personal-care"}>
-                    Beauty & Personal Care
-                  </Link>
-                </DropdownMenuItem>
+                {categories ? (
+                  categories.map((category, index) => (
+                    <DropdownMenuItem
+                      key={index}
+                      className="transition-colors hover:bg-blue-100 hover:text-blue-800"
+                    >
+                      <Link to={`/products/${category.name}`}>{category.name}</Link>
+                    </DropdownMenuItem>
+                  ))
+                ) : (
+                  <>No Categry Found</>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

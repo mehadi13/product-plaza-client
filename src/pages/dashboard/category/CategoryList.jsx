@@ -60,8 +60,8 @@ export function CategoryList() {
               <td className="py-2 px-4 border-b text-center">{category.name}</td>
               <td className="py-2 px-4 border-b text-center">{category.description}</td>
               <td className="py-2 px-4 border-b text-center">
-                <Button onClick={() => handleEditClick(category._id)} className="bg-blue-500 text-white px-2 py-1 rounded mr-2"><Edit/></Button>
-                <Button onClick={() => handleDeleteClick(category._id)} className="bg-red-500 text-white px-2 py-1 rounded"><Delete/></Button>
+                <Button onClick={() => handleEditClick(category._id)} className="bg-blue-500 text-white px-2 py-1 rounded mr-2 h-6 w-6"><Edit/></Button>
+                <Button onClick={() => handleDeleteClick(category._id)} className="bg-red-500 text-white px-2 py-1 rounded  h-6 w-6"><Delete/></Button>
               </td>
             </tr>
           )): <>No Category Found</>}

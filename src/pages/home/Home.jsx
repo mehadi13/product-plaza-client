@@ -1,37 +1,29 @@
-import Banner from "./Banner"
-// import Sample from "./Sample"
-import ContactUs from "./ContactUs"
-import AboutUs from "./AboutUs"
-import FAQs from "./FAQs"
-import CustomerReviews from "./CustomerReviews"
+import Banner from "./Banner";
+import ContactUs from "./ContactUs";
+import FAQs from "./FAQs";
+import CustomerReviews from "./CustomerReviews";
+import { useLoaderData } from "react-router-dom";
+import Sample from "./Sample";
 
 const Home = () => {
-  const reviewData = [
-    { customerName: "Alice", comment: "Great product! Highly recommend.", rating: 5 },
-    { customerName: "Bob", comment: "Good value for money.", rating: 4 },
-    // Add more reviews as needed
-  ];
-
-  const faqData = [
-    { question: "What is your return policy?", answer: "You can return any item within 30 days for a full refund." },
-    { question: "Do you offer international shipping?", answer: "Yes, we ship to most countries worldwide." },
-    // Add more FAQs as needed
-  ];
+  const categories = useLoaderData();
   return (
     <main>
-      <Banner/>
-      
-      {/* <Sample/>
-      <Sample/>
-      <Sample/> */}
+      <Banner />
+      {categories ? (
+        categories.map((category, index) => (
+          <Sample key={index} category={category.name} />
+        ))
+      ) : (
+        <></>
+      )}
 
-<CustomerReviews reviews={reviewData}/>
-      <FAQs faqs={faqData}/>
+      <CustomerReviews />
+      <FAQs />
 
-      <ContactUs/>
-      <AboutUs/>
+      <ContactUs />
     </main>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

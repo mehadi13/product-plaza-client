@@ -5,8 +5,6 @@ import PrivateRoute from "./PrivateRoute";
 
 import RootLayout from "../layouts/RootLayout";
 import Home from "@/pages/home/Home";
-import CourseDetails, { courseDetailsLoader } from "@/pages/secured/CourseDetails";
-import Courses, { courseLoader } from "@/pages/secured/products/Courses";
 // import { imageLoader } from "@/pages/home/Sample";
 import NotFound from "@/pages/NotFound";
 import UnderDev from "@/pages/UnderDev";
@@ -17,6 +15,9 @@ import { productLoader, ProductsList } from "@/pages/dashboard/product/ProductsL
 import EditProduct from "@/pages/dashboard/product/EditProduct";
 import { CategoryList } from "@/pages/dashboard/category/CategoryList";
 import { AddEditCategory } from "@/pages/dashboard/category/AddEditCategory";
+import { categoryLoader } from "@/services/category";
+import Products, { productFilter } from "@/pages/product/Products";
+import ProductDetails from "@/pages/ProductDetails";
 
 
 const routes = createBrowserRouter([
@@ -27,25 +28,7 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        // loader: imageLoader
-      },
-      {
-        path: "/products/:category",
-        element: (
-          <PrivateRoute>
-            <Courses />
-          </PrivateRoute>
-        ),
-        loader: courseLoader
-      },
-      {
-        path: "/products/:category/:id",
-        element: (
-          <PrivateRoute>
-            <CourseDetails />
-          </PrivateRoute>
-        ),
-        loader: courseDetailsLoader
+        loader: categoryLoader
       },
       {
         path: "/profile",
@@ -54,6 +37,18 @@ const routes = createBrowserRouter([
             <UnderDev />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/products/details/:id",
+        element: (<PrivateRoute>
+          <ProductDetails/>
+        </PrivateRoute>),
+        loader: productFilter,
+      },
+      {
+        path: "/products/:category",
+        element: <Products />,
+        loader: productFilter,
       },
       {
         path: "/dev",
