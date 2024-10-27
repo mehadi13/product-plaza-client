@@ -1,9 +1,7 @@
-import { DataTable } from "./DataTable"
-
 const AdminDashboard = () => {
     return <>
-    <DataTable/>
-    Admin</>
+    Dashboard
+    </>
 }
 
 export default AdminDashboard

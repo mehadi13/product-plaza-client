@@ -1,1 +1,1 @@
-export const API_URL = 'https://skillup-server-6g54rqsg9-mehadi-hossains-projects.vercel.app';
+export const API_URL = 'http://localhost:5050';

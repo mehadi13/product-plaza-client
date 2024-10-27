@@ -1,5 +1,5 @@
 import Banner from "./Banner"
-import Sample from "./Sample"
+// import Sample from "./Sample"
 import ContactUs from "./ContactUs"
 import AboutUs from "./AboutUs"
 import FAQs from "./FAQs"
@@ -21,9 +21,9 @@ const Home = () => {
     <main>
       <Banner/>
       
+      {/* <Sample/>
       <Sample/>
-      <Sample/>
-      <Sample/>
+      <Sample/> */}
 
 <CustomerReviews reviews={reviewData}/>
       <FAQs faqs={faqData}/>

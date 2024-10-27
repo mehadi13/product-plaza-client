@@ -11,11 +11,11 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Collapsible } from "@radix-ui/react-collapsible";
-import { CollapsibleContent, CollapsibleTrigger } from "./collapsible";
+import { CollapsibleContent, CollapsibleTrigger } from "../../components/ui/collapsible";
 import { List, Plus, Table, User } from "lucide-react";
-import SidebarNavLink from "../SidebarNavLink";
+import SidebarNavLink from "../../components/SidebarNavLink";
 
-export function AppSidebar() {
+export function DashboardSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
@@ -34,10 +34,10 @@ export function AppSidebar() {
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       <SidebarMenuSubItem>
-                          <SidebarNavLink to={'/admin'} icon={List} label="List View"/>
+                          <SidebarNavLink to={'/dashboard/products'} icon={List} label="List View"/>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
-                        <SidebarNavLink to={'/admin/new'} icon={Plus} label="Add New"/>
+                        <SidebarNavLink to={'/dashboard/products/new'} icon={Plus} label="Add New"/>
                       </SidebarMenuSubItem>
                     </SidebarMenuSub>
                   </CollapsibleContent>

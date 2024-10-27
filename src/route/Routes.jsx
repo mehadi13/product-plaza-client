@@ -7,13 +7,16 @@ import RootLayout from "../layouts/RootLayout";
 import Home from "@/pages/home/Home";
 import CourseDetails, { courseDetailsLoader } from "@/pages/secured/CourseDetails";
 import Courses, { courseLoader } from "@/pages/secured/products/Courses";
-import { imageLoader } from "@/pages/home/Sample";
+// import { imageLoader } from "@/pages/home/Sample";
 import NotFound from "@/pages/NotFound";
 import UnderDev from "@/pages/UnderDev";
 import Dashboard from "@/pages/Dashboard";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import AdminDashboard from "@/pages/dashboard/AdminDashboard";
-import CreateNewProduct from "@/pages/dashboard/CreateNewProduct";
+import AdminDashboard from "@/pages/dashboard/Dashboard";
+import CreateNewProduct from "@/pages/dashboard/products/CreateProduct";
+import { productLoader, ProductsList } from "@/pages/dashboard/products/ProductsList";
+import CreateProduct from "@/pages/dashboard/products/CreateProduct";
+import EditProduct from "@/pages/dashboard/products/EditProduct";
 
 
 const routes = createBrowserRouter([
@@ -24,7 +27,7 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: imageLoader
+        // loader: imageLoader
       },
       {
         path: "/products/:category",
@@ -43,15 +46,6 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: courseDetailsLoader
-      },
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        ),
-        loader: courseLoader
       },
       {
         path: "/profile",
@@ -80,26 +74,41 @@ const routes = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "/admin",
+    path: "/dashboard",
     element: <DashboardLayout/>,
     children: [
       {
-        path: "/admin",
+        path: "/dashboard",
         element: (
           <PrivateRoute>
             <AdminDashboard />
           </PrivateRoute>
-        ),
-        loader: courseLoader
+        )
       },
       {
-        path: "/admin/new",
+        path: "/dashboard/products",
+        element: (
+          <PrivateRoute>
+            <ProductsList />
+          </PrivateRoute>
+        ),
+        loader: productLoader
+      },
+      {
+        path: "/dashboard/products/new",
         element: (
           <PrivateRoute>
             <CreateNewProduct />
           </PrivateRoute>
-        ),
-        loader: courseLoader
+        )
+      },
+      {
+        path: "/dashboard/products/edit/:id",
+        element: (
+          <PrivateRoute>
+            <EditProduct />
+          </PrivateRoute>
+        )
       }
     ]
   }
